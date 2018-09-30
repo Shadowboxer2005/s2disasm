@@ -1455,8 +1455,10 @@ zPlaySoundByIndex:
 	ld	(ix+zVar.QueueToPlay),80h	; Rewrite zComRange+8 flag so we know nothing new is coming in
 	cp	MusID__End			; is it music (less than index 20)?
 	jp	c,zPlayMusic			; if yes, branch to play the music
+   if OptimiseDriver=0
 	cp	SndID__First			; is it not a sound? (this check is redundant if MusID__End == SndID__First...)
 	ret	c				; if it isn't a sound, return (do nothing)
+   endif
 	cp	SndID__End			; is it a sound (less than index 71)?
 	jp	c,zPlaySound_CheckRing		; if yes, branch to play the sound
 	cp	CmdID__First			; is it after the last regular sound but before the first special sound command (between 71 and 78)?
